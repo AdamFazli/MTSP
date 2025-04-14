@@ -9,7 +9,15 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("ini page carta organisasi") }}
+                    <h3 class="text-2xl font-bold mb-4">Struktur Carta Organisasi</h3>
+                    <p class="mb-2">Berikut adalah struktur organisasi syarikat kami:</p>
+                    <ul class="list-disc pl-6">
+                        <li>CEO - Ahmad bin Ali</li>
+                        <li>CTO - Siti binti Osman</li>
+                        <li>COO - John Doe</li>
+                        <li>Manager - Jane Smith</li>
+                        <li>Staff - Ali bin Abu, Fatimah binti Osman</li>
+                    </ul>
                 </div>
             </div>
         </div>
