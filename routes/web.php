@@ -11,6 +11,7 @@ use App\Http\Controllers\InfaqController;
 use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\TempahDewanController;
 
 
 /*
@@ -116,6 +117,9 @@ Route::post('/webhook', [InfaqController::class, 'webhook'])->name('infaq.webhoo
 // Hubungi Kami Routes (Public)
 Route::get('/hubungi_kami', [ContactController::class, 'index'])->name('hubungi.kami');
 Route::get('/contact/submit', [ContactController::class, 'submitForm'])->name('contact.submit');
+
+// Tempah Dewan Routes (Public)
+Route::get('/tempah-dewan', [TempahDewanController::class, 'index'])->name('tempah.dewan');
 
 // Catch-all route for debugging
 Route::fallback(function () {

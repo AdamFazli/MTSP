@@ -1,19 +1,19 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100 h-58">
 
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    
+
     @if (Route::has('login'))
     <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-    @auth
-    <div id="notification-icon" class="cursor-pointer">
-        <x-zondicon-notification class="w-6 h-6 text-gray-600 hover:text-blue-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500" />
-    </div>
-    @if(auth()->user()->unreadNotifications->count() > 0)
+        @auth
+        <div id="notification-icon" class="cursor-pointer">
+            <x-zondicon-notification class="w-6 h-6 text-gray-600 hover:text-blue-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500" />
+        </div>
+        @if(auth()->user()->unreadNotifications->count() > 0)
         <div class="absolute top-5 right-3 bg-red-500 text-white rounded-full px-2 text-xs font-bold">{{ auth()->user()->unreadNotifications->count() }}</div>
-    @endif
-    <div id="notification-container" class="hidden fixed top-15 right-5 pr-6 pb-6 pl-6 text-gray-900 bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-lg">
-        @if(auth()->user()->notifications->count() > 0)
-        @foreach(auth()->user()->notifications as $notification)
+        @endif
+        <div id="notification-container" class="hidden fixed top-15 right-5 pr-6 pb-6 pl-6 text-gray-900 bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-lg">
+            @if(auth()->user()->notifications->count() > 0)
+            @foreach(auth()->user()->notifications as $notification)
             <div class="py-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
                 <div class="flex items-center">
                     <div>
@@ -29,31 +29,31 @@
                     </div>
                 </div>
             </div>
-        @endforeach
-        @else
-        <div class="py-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0">Tiada notifikasi</div>
-        @endif
-
-    </div>
+            @endforeach
             @else
-                <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+            <div class="py-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0">Tiada notifikasi</div>
+            @endif
 
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-                @endif
-            @endauth
         </div>
+        @else
+        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+
+        @if (Route::has('register'))
+        <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+        @endif
+        @endauth
+    </div>
     @endif
 
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col justify-center items-center"> 
+        <div class="flex flex-col justify-center items-center">
             <!-- Logo and Title -->
             <div class="flex items-center justify-center">
                 <!-- Logo -->
                 <div class="shrink-0">
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('img/MTSP.png') }}" class="block w-28 h-auto pt-4 mb-4" /> 
+                        <img src="{{ asset('img/MTSP.png') }}" class="block w-28 h-auto pt-4 mb-4" />
                     </a>
                 </div>
 
@@ -64,7 +64,7 @@
             </div>
 
             <!-- Navigation Links -->
-            <div class="hidden space-x-8 sm:flex sm: justify-center sm:items-center pb-3"> 
+            <div class="hidden space-x-8 sm:flex sm: justify-center sm:items-center pb-3">
                 <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                     {{ __('Utama') }}
                 </x-nav-link>
@@ -126,6 +126,11 @@
                     {{ __('Infaq') }}
                 </x-nav-link>
 
+                <x-nav-link :href="route('tempah.dewan')" :active="request()->routeIs('tempah.dewan')">
+                    {{ __('Tempah Dewan') }}
+                </x-nav-link>
+
+
                 <!-- Dropdown for E-Khairat -->
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
                     <x-dropdown align="left">
@@ -164,10 +169,10 @@
                     @auth
                     <x-dropdown align="left" width="48">
                         <x-slot name="trigger">
-                        @php
+                            @php
                             $nameParts = explode(' ', Auth::user()->name);
                             $firstName = $nameParts[0];
-                        @endphp
+                            @endphp
                             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ $firstName }}</div>
 
@@ -189,7 +194,7 @@
                                 @csrf
 
                                 <x-dropdown-link :href="route('logout')"
-                                        onclick="event.preventDefault();
+                                    onclick="event.preventDefault();
                                                     this.closest('form').submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
@@ -216,12 +221,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        $(document).ready(function () {
-            $("#notification-icon").click(function () {
+        $(document).ready(function() {
+            $("#notification-icon").click(function() {
                 $("#notification-container").toggle();
             });
 
-            $(document).on("click", function (event) {
+            $(document).on("click", function(event) {
                 if (!$(event.target).closest("#notification-icon, #notification-container").length) {
                     $("#notification-container").hide();
                 }

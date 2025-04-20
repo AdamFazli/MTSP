@@ -161,7 +161,7 @@
         <div class="w-full bg-gray-800 px-6 py-4 text-white dark:bg-gray-900 dark:text-gray-300">
             <div class="max-w-7xl mx-auto flex justify-between">
                 <div class="text-sm">
-                    <p class="mb-2">&copy; Copyright 2024 <a class="text-primary dark:text-primary-light" href="{{ route('home') }}">Masjid Taman Sri Pulai</a></p>
+                    <p class="mb-2">&copy; Copyright 2025 <a class="text-primary dark:text-primary-light" href="{{ route('home') }}">Masjid Taman Sri Pulai</a></p>
                 </div>
                 <div class="text-sm">
                     <p>Web ini disediakan oleh <span class="font-bold">KITAA</span></p>
