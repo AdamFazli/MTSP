@@ -20,7 +20,7 @@ class BeritaController extends Controller
 
     public function search(Berita $berita)
     {
-         $search_text = isset($_GET['query']) ? $_GET['query'] : '';
+        $search_text = isset($_GET['query']) ? $_GET['query'] : '';
 
         $berita = Berita::where('name', 'LIKE', '%' . $search_text . '%')
             ->orWhere(function ($query) use ($search_text) {
@@ -29,9 +29,7 @@ class BeritaController extends Controller
             })
             ->get();
 
-        return view('Berita.berita_umum', compact('berita', 'search_text')); 
-
-      
+        return view('Berita.berita_umum', compact('berita', 'search_text'));
     }
     /**
      * Show the form for creating a new resource.
@@ -53,13 +51,11 @@ class BeritaController extends Controller
         $validated = $request->validated();
 
 
-
         if ($image = $request->file('image')) {
             $destinationPath = 'images/';
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $validated['image'] = $profileImage;
-
         }
 
 
@@ -126,8 +122,15 @@ class BeritaController extends Controller
          return view('Berita.edit_berita', compact('berita')); */
 
         return view('Berita.edit_berita', compact('berita'));
+    }
 
-
+    /**
+     * Return the partial view for AJAX tab loading.
+     */
+    public function partial()
+    {
+        $berita = Berita::orderBy('created_at', 'DESC')->take(10)->get(); // or paginate() if needed
+        return view('Berita.ajax', compact('berita'));
     }
 
 

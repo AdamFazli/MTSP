@@ -126,9 +126,19 @@
                     {{ __('Infaq') }}
                 </x-nav-link>
 
-                <x-nav-link :href="route('tempah.dewan')" :active="request()->routeIs('tempah.dewan')">
+                <!-- Tempah Dewan -->
+                @auth
+                @if(auth()->user()->is_admin)
+                <x-nav-link :href="route('tempah.dewan.index')" :active="request()->routeIs('tempah.dewan.index')">
+                    {{ __('Tempahan Dewan (Admin)') }}
+                </x-nav-link>
+                @else
+                <x-nav-link :href="route('tempah.dewan.create')" :active="request()->routeIs('tempah.dewan.create')">
                     {{ __('Tempah Dewan') }}
                 </x-nav-link>
+                @endif
+                @endauth
+
 
 
                 <!-- Dropdown for E-Khairat -->

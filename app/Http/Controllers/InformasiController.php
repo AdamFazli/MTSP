@@ -15,22 +15,34 @@ class InformasiController extends Controller
     public function index()
     {
         //
-        
+
     }
 
     /**
      * Show the form for creating a new resource.
      */
 
-     public function create()
-     {
-         //
-     }
- 
+    public function create()
+    {
+        //
+    }
+
     public function visi_misi()
     {
         return view('informasi.visi_misi');
         //
+    }
+
+    /**
+     * Return the partial view for AJAX tab loading.
+     */
+    public function partial()
+    {
+        // Fetch the latest 10 pieces of Informasi (or customize as needed)
+        $informasi = Informasi::latest()->take(10)->get();
+
+        // Return the 'ajax' view from 'Informasi' folder
+        return view('Informasi.ajax', compact('informasi'));
     }
 
     public function carta_organisasi()

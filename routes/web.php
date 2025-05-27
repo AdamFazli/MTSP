@@ -37,7 +37,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
 // Admin Routes
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware([])->group(function () {
     Route::get('/Ekhairat/Senarai', [MembershipController::class, 'index'])->name('membership.index');
     Route::get('/Ekhairat/Senarai/{membership}', [MembershipController::class, 'show'])->name('membership.semak');
     Route::get('/Ekhairat/Search', [MembershipController::class, 'search'])->name('membership.search');
@@ -50,14 +50,25 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/edit_berita/{berita}', [BeritaController::class, 'edit'])->name('edit.berita');
     Route::put('/update_berita/{berita}', [BeritaController::class, 'update'])->name('update.berita');
     Route::get('/delete_berita/{berita}', [BeritaController::class, 'destroy'])->name('delete.berita');
+    Route::get('/tab-content/berita', [BeritaController::class, 'partial']);
 
+    // Informasi Routes (Admin-only)
+    Route::get('/tab-content/informasi', [InformasiController::class, 'partial']);
 
+    // Tempah Dewan Routes (Admin-only)
+    Route::middleware(['auth'])->prefix('admin')->group(function () {
+        Route::get('admin/tempah-dewan', [TempahDewanController::class, 'adminIndex'])->name('tempah.dewan.index');
+        Route::get('admin/tempah-dewan/{id}', [TempahDewanController::class, 'adminShow'])->name('tempah.dewan.show');
+        Route::post('admin/tempah-dewan/{id}/update', [TempahDewanController::class, 'adminUpdate'])->name('tempah.dewan.update');
+    });
+    
     // Aktiviti Masjid Routes (Admin-only)
     Route::get('/berita-masjid/tambah-aktiviti', [AktivitiController::class, 'create'])->name('aktiviti.create');
     Route::post('/berita-masjid/tambah-aktiviti', [AktivitiController::class, 'store'])->name('aktiviti.store');
     Route::get('/berita-masjid/edit-aktiviti/{aktiviti}', [AktivitiController::class, 'edit'])->name('aktiviti.edit');
     Route::put('/berita-masjid/edit-aktiviti/{aktiviti}', [AktivitiController::class, 'update'])->name('aktiviti.update');
     Route::delete('/berita-masjid/delete-aktiviti/{aktiviti}', [AktivitiController::class, 'destroy'])->name('aktiviti.destroy');
+    Route::get('/tab-content/aktiviti', [AktivitiController::class, 'partial']);
 });
 
 
@@ -76,36 +87,42 @@ Route::middleware('auth')->group(function () {
     Route::get('/Ekhairat/confirmation', [MembershipController::class, 'editConfirmation'])->name('membership.editConfirmation');
     Route::get('/Ekhairat/edit/{membership}', [MembershipController::class, 'edit'])->name('membership.edit');
     Route::put('/Ekhairat/update/{membership}', [MembershipController::class, 'update'])->name('membership.update');
-    Route::get('/Ekhairat/pelan', function(){return view('E-khairat.pelanAhli');})->name('membership.pelan');
+    Route::get('/Ekhairat/pelan', function () {
+        return view('E-khairat.pelanAhli');
+    })->name('membership.pelan');
     Route::post('/Ekhairat/Bayar', [MembershipController::class, 'bayar'])->name('membership.bayar');
     Route::get('/Ekhairat/success', [MembershipController::class, 'success'])->name('membership.success');
     Route::get('/Ekhairat/cancel', [MembershipController::class, 'cancel'])->name('membership.cancel');
     Route::get('send-email', [MailController::class, 'sendEmail'])->name('send.email');
-  
+
     Route::get('/Ekhairat/renew', [MembershipController::class, 'renew'])->name('membership.renew');
     Route::get('/home/removeNotif/{id}', [NotificationController::class, 'removeNotif'])->name('removeNotif');
-
 });
 
 
 // Informasi Routes (Public)
 Route::get('/visi_misi', [InformasiController::class, 'visi_misi'])->name('visi misi');
 Route::get('/carta_organisasi', [InformasiController::class, 'carta_organisasi'])->name('carta organisasi');
+Route::get('/tab-content/informasi', [InformasiController::class, 'partial']);
 
 // Berita Umum Routes (Public)
 Route::get('/berita_umum', [BeritaController::class, 'index'])->name('berita umum');
 Route::get('/search', [BeritaController::class, 'search'])->name('search.berita');
 Route::get('/details_berita/{berita}', [BeritaController::class, 'show'])->name('details.berita');
+Route::get('/tab-content/berita', [BeritaController::class, 'partial']);
 
 // Aktiviti Masjid Routes (Public)
 Route::get('/berita-masjid', [BeritaController::class, 'beritaMasjid'])->name('berita-masjid');
 Route::get('/berita-masjid/aktiviti', [AktivitiController::class, 'index'])->name('aktiviti.index');
 Route::get('/berita-masjid/aktiviti/{aktiviti}', [AktivitiController::class, 'show'])->name('aktiviti.show');
 Route::get('/berita-masjid/aktiviti/search', [AktivitiController::class, 'search'])->name('aktiviti.search');
+Route::get('/tab-content/aktiviti', [AktivitiController::class, 'partial']);
 
 
 Route::get('/Ekhairat/Polisi', [MembershipController::class, 'info'])->name('membership.polisi');
-Route::get('/Ekhairat/LatarBelakang', function(){return view('E-khairat.latarBelakang');})->name('membership.latarBelakang');
+Route::get('/Ekhairat/LatarBelakang', function () {
+    return view('E-khairat.latarBelakang');
+})->name('membership.latarBelakang');
 
 // Infaq routes (Public and Logged-in User)
 Route::get('/infaq', [InfaqController::class, 'derma'])->name('infaq.derma');
@@ -119,7 +136,8 @@ Route::get('/hubungi_kami', [ContactController::class, 'index'])->name('hubungi.
 Route::get('/contact/submit', [ContactController::class, 'submitForm'])->name('contact.submit');
 
 // Tempah Dewan Routes (Public)
-Route::get('/tempah-dewan', [TempahDewanController::class, 'index'])->name('tempah.dewan');
+Route::get('/tempah-dewan', [TempahDewanController::class, 'create'])->name('tempah.dewan.create');
+Route::post('/tempah-dewan', [TempahDewanController::class, 'store'])->name('tempah.dewan.store');
 
 // Catch-all route for debugging
 Route::fallback(function () {

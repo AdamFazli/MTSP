@@ -13,25 +13,27 @@ class AktivitiController extends Controller
     public function index()
     {
         $aktivitis = Aktiviti::all();
-    
+
         $today = today();
-    
+
         $upcomingAktivitis = Aktiviti::where('tarikh_aktiviti', '>=', $today)
             ->orderBy('tarikh_aktiviti')
             ->orderBy('masa_mula')
             ->get();
-    
+
         $latestAktivitis = Aktiviti::where('tarikh_aktiviti', '<', $today)
             ->orderByDesc('tarikh_aktiviti')
             ->orderByDesc('masa_mula')
             ->take(3)
             ->get();
-    
+
         $pastAktivitis = Aktiviti::where('tarikh_aktiviti', '<', $today)
             ->orderByDesc('tarikh_aktiviti')
             ->orderByDesc('masa_mula')
             ->get();
-    
+
+        // nanti tiga tiga satu kan pahhm
+
         return view('Berita.Aktiviti.aktiviti', [
             'aktivitis' => $aktivitis,
             'upcomingAktivitis' => $upcomingAktivitis,
@@ -39,7 +41,7 @@ class AktivitiController extends Controller
             'pastAktivitis' => $pastAktivitis,
         ]);
     }
-    
+
 
     public function calendar()
     {
@@ -49,7 +51,7 @@ class AktivitiController extends Controller
     public function getEvents()
     {
         $aktivitis = Aktiviti::all();
-    
+
         $events = $aktivitis->map(function ($aktiviti) {
             return [
                 'title' => $aktiviti->tajuk_aktiviti,
@@ -59,10 +61,10 @@ class AktivitiController extends Controller
                 'description' => $aktiviti->deskripsi_aktiviti,
             ];
         });
-    
+
         return response()->json($events);
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -124,24 +126,23 @@ class AktivitiController extends Controller
     {
         try {
             $searchQuery = $request->input('search');
-    
+
             // Implement your search logic here, e.g., using Eloquent
             $searchResults = Aktiviti::where('tajuk_aktiviti', 'like', "%$searchQuery%")
-            ->orWhere('tempat_aktiviti', 'like', "%$searchQuery%")
-            ->orWhere('deskripsi_aktiviti', 'like', "%$searchQuery%")
-            ->get();
+                ->orWhere('tempat_aktiviti', 'like', "%$searchQuery%")
+                ->orWhere('deskripsi_aktiviti', 'like', "%$searchQuery%")
+                ->get();
 
             return view('Berita.Aktiviti.search_aktiviti', [
                 'searchResults' => $searchResults,
                 'searchQuery' => $searchQuery,
             ]);
-    
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
     }
-    
-    
+
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -150,6 +151,18 @@ class AktivitiController extends Controller
         return view('Berita.Aktiviti.tambah_aktiviti', [
             'aktiviti' => $aktiviti,
         ]);
+    }
+
+    /**
+     * Return the partial view for AJAX tab loading.
+     */
+    public function partial()
+    {
+        // Fetch the latest 10 activities (customize this if you want more)
+        $aktiviti = Aktiviti::orderBy('tarikh', 'DESC')->take(10)->get();
+
+        // Return the 'ajax' view from 'Aktiviti' folder
+        return view('Berita.Aktiviti.ajax', compact('aktiviti'));
     }
 
     /**
