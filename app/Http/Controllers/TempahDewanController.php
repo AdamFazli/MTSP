@@ -13,10 +13,10 @@ class TempahDewanController extends Controller
     public function create()
     {
         if (auth()->check() && auth()->user()->usertype === 'admin') {
-            return redirect()->route('tempah.dewan.index'); // redirect admin to list page
+            return redirect()->route('tempah.dewan.index'); 
         }
 
-        // normal user form logic
+        
         $userBookings = [];
 
         if (Auth::check()) {
@@ -41,12 +41,11 @@ class TempahDewanController extends Controller
 
         $booking = new TempahDewan($validated);
 
-        // Add this to save the logged-in user id
         if (auth()->check()) {
             $booking->user_id = auth()->id();
         }
 
-        $booking->status = 'pending';  // Default status
+        $booking->status = 'pending'; 
         $booking->save();
 
         return redirect()->route('tempah.dewan.create')->with('success', 'Tempahan dewan berjaya dihantar!');

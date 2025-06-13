@@ -12,6 +12,7 @@ use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TempahDewanController;
+use App\Http\Controllers\AsnafController;
 
 
 /*
@@ -61,7 +62,19 @@ Route::middleware([])->group(function () {
         Route::get('admin/tempah-dewan/{id}', [TempahDewanController::class, 'adminShow'])->name('tempah.dewan.show');
         Route::post('admin/tempah-dewan/{id}/update', [TempahDewanController::class, 'adminUpdate'])->name('tempah.dewan.update');
     });
-    
+
+    // Asnaf Routes (Admin-only)
+    Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+        Route::get('/e-asnaf', [AsnafController::class, 'index'])->name('asnaf.index');
+        Route::get('/e-asnaf/create', [AsnafController::class, 'create'])->name('asnaf.create');
+        Route::post('/e-asnaf', [AsnafController::class, 'store'])->name('asnaf.store');
+        Route::get('/e-asnaf/{id}/edit', [AsnafController::class, 'edit'])->name('asnaf.edit');
+        Route::put('/e-asnaf/{id}', [AsnafController::class, 'update'])->name('asnaf.update');
+        Route::delete('/e-asnaf/{id}', [AsnafController::class, 'destroy'])->name('asnaf.destroy');
+        Route::resource('asnaf', AsnafController::class);
+        Route::get('/admin/e-asnaf/export/excel', [AsnafController::class, 'exportExcel'])->name('asnaf.export.excel');
+    });
+
     // Aktiviti Masjid Routes (Admin-only)
     Route::get('/berita-masjid/tambah-aktiviti', [AktivitiController::class, 'create'])->name('aktiviti.create');
     Route::post('/berita-masjid/tambah-aktiviti', [AktivitiController::class, 'store'])->name('aktiviti.store');
