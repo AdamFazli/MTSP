@@ -23,7 +23,7 @@ class TempahDewanController extends Controller
             $userBookings = TempahDewan::where('user_id', Auth::id())->orderBy('date', 'desc')->get();
         }
 
-        $dewanTypes = ['Dewan A', 'Dewan B', 'Dewan C'];
+        $dewanTypes = ['Dewan UTAMA', 'Dewan AL BUKHARI', 'Dewan AL TIRMIZI'];
         return view('tempahDewan.create', compact('dewanTypes', 'userBookings'));
     }
 

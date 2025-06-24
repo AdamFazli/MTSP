@@ -34,6 +34,8 @@
             </main>
 
             @include('layouts.footer')
+            <x-chatbot />
         </div>
     </body>
 </html>
+

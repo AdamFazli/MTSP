@@ -13,6 +13,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TempahDewanController;
 use App\Http\Controllers\AsnafController;
+use App\Http\Controllers\ChatbotController;
 
 
 /*
@@ -136,6 +137,9 @@ Route::get('/Ekhairat/Polisi', [MembershipController::class, 'info'])->name('mem
 Route::get('/Ekhairat/LatarBelakang', function () {
     return view('E-khairat.latarBelakang');
 })->name('membership.latarBelakang');
+
+// Chatbot Routes (Public)
+Route::post('/chatbot', [ChatbotController::class, 'handle']);
 
 // Infaq routes (Public and Logged-in User)
 Route::get('/infaq', [InfaqController::class, 'derma'])->name('infaq.derma');
