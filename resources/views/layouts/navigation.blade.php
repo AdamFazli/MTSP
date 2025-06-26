@@ -127,6 +127,13 @@
                 </x-nav-link>
 
                 <!-- Tempah Dewan -->
+                @guest
+                <!-- If guest, show Tempah Dewan link to login -->
+                <x-nav-link :href="route('login')" :active="request()->routeIs('login')">
+                    {{ __('Tempah Dewan') }}
+                </x-nav-link>
+                @endguest
+
                 @auth
                 @if(auth()->user()->is_admin)
                 <x-nav-link :href="route('tempah.dewan.index')" :active="request()->routeIs('tempah.dewan.index')">
@@ -147,7 +154,7 @@
                 </x-nav-link>
                 @endif
                 @endauth
-                
+
                 <!-- Dropdown for E-Khairat -->
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
                     <x-dropdown align="left">
