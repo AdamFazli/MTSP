@@ -84,7 +84,7 @@
 
             </div>
             <div class="m-3 w-full relative flex justify-center">
-                <img src="{{ asset('img/PosterKhairat.jpg') }}" alt="Masjid Image" class="w-2/3 h-auto mb-4 rounded">
+                <img src="{{ asset('img/CartaOrganisasi/khairat.jpg') }}" alt="Masjid Image" class="w-2/3 h-auto mb-4 rounded">
             </div>
         </div>
 

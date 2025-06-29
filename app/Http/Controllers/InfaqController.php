@@ -31,6 +31,15 @@ class InfaqController extends Controller
 
   public function bayar(Request $request)
   {
+
+    $validatedData = $request->validate([
+      'donationAmount' => 'required|numeric|min:1',
+    ], [
+      'donationAmount.required' => 'Sila masukkan amaun derma.',
+      'donationAmount.numeric' => 'Amaun derma mesti nombor.',
+      'donationAmount.min' => 'Donation amount must be at least RM1.',
+    ]);
+
     $stripe = new \Stripe\StripeClient(env('STRIPE_SK'));
 
     if (Auth::check()) {
