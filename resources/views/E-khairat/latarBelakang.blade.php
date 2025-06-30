@@ -7,7 +7,7 @@
 </x-slot>
 <div class="container mx-auto mt-8">
     <div class="max-w-2xl mx-auto my-auto p-8 bg-white shadow-lg rounded-lg">
-        <img src="{{ asset('img/PosterKhairat.jpg') }}" alt="Masjid Image" class="w-full mb-4 rounded">
+        <img src="{{ asset('img/CartaOrganisasi/khairat.jpg') }}" alt="Masjid Image" class="w-full mb-4 rounded">
 
         <h2 class="text-2xl font-semibold mb-4">Tabung Khairat Kematian Masjid Taman Sri Pulai, Skudai, Johor (TKKMTSP)</h2>
 
