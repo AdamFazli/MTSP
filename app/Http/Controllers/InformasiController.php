@@ -29,7 +29,7 @@ class InformasiController extends Controller
 
     public function visi_misi()
     {
-        return view('informasi.visi_misi');
+        return view('Informasi.visi_misi');
         //
     }
 
