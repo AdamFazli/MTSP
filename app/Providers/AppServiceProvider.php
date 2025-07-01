@@ -25,8 +25,5 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.env') === 'production') {
             URL::forceScheme('https');
         }
-
-        // Prefetch Vite assets (if you're using Vite for frontend)
-        Vite::prefetch(concurrency: 3);
     }
 }
