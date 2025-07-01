@@ -47,7 +47,7 @@ class InformasiController extends Controller
 
     public function carta_organisasi()
     {
-        return view('informasi.carta_organisasi');
+        return view('Informasi.carta_organisasi');
         //
     }
     /**
