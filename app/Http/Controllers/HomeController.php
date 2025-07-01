@@ -29,7 +29,7 @@ class HomeController extends Controller
                 $infaq = Infaq::where('status', 'paid')->get();
                 $user = User::all();
                 
-                return view('admin.dashboard', compact('totalUser', 'totalMembership', 'totalMoney', 'totalInfaq', 'membership', 'infaq', 'user'));
+                return view('Admin.dashboard', compact('totalUser', 'totalMembership', 'totalMoney', 'totalInfaq', 'membership', 'infaq', 'user'));
             } 
             
             elseif ($usertype == 'user') {
