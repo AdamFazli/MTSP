@@ -45,33 +45,37 @@ class BeritaController extends Controller
      */
     public function store(StoreBeritaRequest $request, Berita $berita)
     {
-
-
-
         $validated = $request->validated();
 
-
         if ($image = $request->file('image')) {
-            $destinationPath = 'images/';
+            // Define the mounted volume path
+            $destinationPath = '/app/public/images';  // This is the mount path inside the container
+
+            // Generate a unique filename for the image
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+
+            // Ensure the directory exists (Laravel should be able to access it)
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0775, true);
+            }
+
+            // Move the file to the mounted volume
             $image->move($destinationPath, $profileImage);
+
+            // Save the file path in the database
             $validated['image'] = $profileImage;
         }
 
-
-
+        // Store the data in the database
         $berita = Berita::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
             'image' => $validated['image'],
-
         ]);
-
 
         return redirect()->route('berita umum')
             ->with('success', 'Product created successfully.');
     }
-
 
 
 
