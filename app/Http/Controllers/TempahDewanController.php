@@ -70,6 +70,6 @@ class TempahDewanController extends Controller
         $booking->status = $request->input('status');
         $booking->save();
 
-        return redirect()->route('Tempah.dewan.index')->with('success', 'Status tempahan dikemaskini.');
+        return redirect()->route('tempah.dewan.index')->with('success', 'Status tempahan dikemaskini.');
     }
 }
