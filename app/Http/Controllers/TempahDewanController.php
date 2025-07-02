@@ -24,7 +24,7 @@ class TempahDewanController extends Controller
         }
 
         $dewanTypes = ['Dewan ABU DAUD', 'Dewan AL BUKHARI', 'Dewan AL TIRMIZI'];
-        return view('tempahDewan.create', compact('dewanTypes', 'userBookings'));
+        return view('TempahDewan.create', compact('dewanTypes', 'userBookings'));
     }
 
 
