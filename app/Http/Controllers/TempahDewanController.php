@@ -55,13 +55,13 @@ class TempahDewanController extends Controller
     public function adminIndex()
     {
         $bookings = TempahDewan::orderBy('date', 'desc')->paginate(10);
-        return view('tempahDewan.admin.index', compact('bookings'));
+        return view('TempahDewan.admin.index', compact('bookings'));
     }
 
     public function adminShow($id)
     {
         $booking = TempahDewan::findOrFail($id);
-        return view('tempahDewan.admin.show', compact('booking'));
+        return view('TempahDewan.admin.show', compact('booking'));
     }
 
     public function adminUpdate(Request $request, $id)
@@ -70,6 +70,6 @@ class TempahDewanController extends Controller
         $booking->status = $request->input('status');
         $booking->save();
 
-        return redirect()->route('tempah.dewan.index')->with('success', 'Status tempahan dikemaskini.');
+        return redirect()->route('Tempah.dewan.index')->with('success', 'Status tempahan dikemaskini.');
     }
 }
