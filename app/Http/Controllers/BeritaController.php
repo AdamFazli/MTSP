@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Berita\StoreBeritaRequest;
 
 
@@ -46,7 +47,7 @@ class BeritaController extends Controller
     public function store(StoreBeritaRequest $request, Berita $berita)
     {
         $validated = $request->validated();
-
+        if ($request->hasFile('image') && $image = $request->file('image')) {
         if ($image = $request->file('image')) {
             // Define the mounted volume path
             $destinationPath = '/app/public/images';  // This is the mount path inside the container
