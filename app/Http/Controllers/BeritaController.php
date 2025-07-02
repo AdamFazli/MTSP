@@ -77,6 +77,7 @@ class BeritaController extends Controller
         return redirect()->route('berita umum')
             ->with('success', 'Product created successfully.');
     }
+}
 
 
 
