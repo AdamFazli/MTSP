@@ -47,37 +47,38 @@ class BeritaController extends Controller
     public function store(StoreBeritaRequest $request, Berita $berita)
     {
         $validated = $request->validated();
-        if ($request->hasFile('image') && $image = $request->file('image')) {
-        if ($image = $request->file('image')) {
+
+        // Check if an image is uploaded
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
             // Define the mounted volume path
-            $destinationPath = '/app/public/images';  // This is the mount path inside the container
+            $destinationPath = '/app/public/images';  // Mounted volume path
 
             // Generate a unique filename for the image
-            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $profileImage = date('YmdHis') . "." . $request->file('image')->getClientOriginalExtension();
 
-            // Ensure the directory exists (Laravel should be able to access it)
+            // Ensure the directory exists (it should be mounted by Railway)
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0775, true);
             }
 
-            // Move the file to the mounted volume
-            $image->move($destinationPath, $profileImage);
+            // Move the image to the mounted volume directory
+            $request->file('image')->move($destinationPath, $profileImage);
 
-            // Save the file path in the database
+            // Save the filename in the validated data
             $validated['image'] = $profileImage;
         }
 
-        // Store the data in the database
+        // Create a new 'berita' record with the uploaded image filename
         $berita = Berita::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
-            'image' => $validated['image'],
+            'image' => $validated['image'],  // Store the image filename in the database
         ]);
 
-        return redirect()->route('berita umum')
+        return redirect()->route('berita.umum')
             ->with('success', 'Product created successfully.');
     }
-}
+
 
 
 
