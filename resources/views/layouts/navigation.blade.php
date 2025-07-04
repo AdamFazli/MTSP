@@ -148,7 +148,7 @@
 
                 <!-- Dropdown for E-Asnaf -->
                 @auth
-                @if(auth()->user()->role === 'admin')
+                @if(auth()->user()->is_admin)
                 <x-nav-link :href="route('asnaf.index')" :active="request()->routeIs('asnaf.*')">
                     {{ __('E-Asnaf') }}
                 </x-nav-link>
