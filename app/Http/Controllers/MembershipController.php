@@ -37,7 +37,7 @@ class MembershipController extends Controller
         elseif($usertype == 'admin'){
             $memberships = Membership::all();
 
-            return view('admin.senarai_ahli', [
+            return view('Admin.senarai_ahli', [
                 'memberships' => $memberships,
             ]);
         }
@@ -160,7 +160,7 @@ class MembershipController extends Controller
         ->orWhere('email', 'LIKE', '%'.$search.'%')
         ->get();
 
-        return view('admin.senarai_ahli', [
+        return view('Admin.senarai_ahli', [
             'memberships' => $membership,
             'search' => $search,
         ]);
