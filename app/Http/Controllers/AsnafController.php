@@ -22,10 +22,6 @@ class AsnafController extends Controller
 
     public function create()
     {
-        if (auth()->check() && auth()->user()->usertype === 'admin') {
-            return redirect()->route('asnaf.index');
-        }
-
         return view('E-Asnaf.create');
     }
 
