@@ -143,7 +143,7 @@
                 <x-nav-link :href="route('tempah.dewan.create')" :active="request()->routeIs('tempah.dewan.create')">
                     {{ __('Tempah Dewan') }}
                 </x-nav-link>
-                @endif
+                @endif  
                 @endauth
 
                 <!-- Dropdown for E-Asnaf -->

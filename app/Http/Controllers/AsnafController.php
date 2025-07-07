@@ -17,7 +17,7 @@ class AsnafController extends Controller
     public function index()
     {
         $asnafs = Asnaf::all();
-        return view('admin.e-asnaf', compact('asnafs'));
+        return view('Admin.e-asnaf', compact('asnafs'));
     }
 
     public function create()
