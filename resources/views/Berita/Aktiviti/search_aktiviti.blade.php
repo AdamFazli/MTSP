@@ -10,7 +10,7 @@
 
             @forelse($results as $aktiviti)
                 <section class="mb-32">
-                    <img src="/img/aktiviti/{{ $aktiviti->gambar_aktiviti }}"
+                    <img src="{{ asset('storage/images/' . $aktiviti->gambar_aktiviti) }}"
                         class="mb-6 w-full rounded-lg shadow-lg dark:shadow-black/20" alt="Poster Aktiviti" />
 
                     <div class="mb-6 flex items-center">

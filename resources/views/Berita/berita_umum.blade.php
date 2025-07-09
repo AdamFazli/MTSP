@@ -36,7 +36,7 @@
                                 class=" relative overflow-hidden break-words bg-white shadow rounded transition-transform duration-300 transform hover:shadow-2xl">
 
                                 <p><a href="{{ route('details.berita', $key->id) }}"><img
-                                            src="{{ asset('/images/' . $key->image) }}"
+                                            src="{{ asset('storage/images/' . $key->image) }}"
                                             class="object-cover w-[300px] h-[150px]" alt=""></a></p>
 
                                 <div class="p-4">

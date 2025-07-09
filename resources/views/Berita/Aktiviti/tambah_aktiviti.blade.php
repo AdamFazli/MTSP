@@ -46,7 +46,7 @@
                             <div>
                                 <x-input-label for="gambar_aktiviti" :value="__('Gambar')" />
                                 @if (Route::currentRouteName() == 'aktiviti.edit')
-                                <img src="/img/aktiviti/{{ $aktiviti->gambar_aktiviti }}" alt="Poster Aktiviti"
+                                <img src="{{ asset('storage/images/' . $aktiviti->gambar_aktiviti) }}" alt="Poster Aktiviti"
                                     class="mt-2 w-1/4">
                                 @endif
                                 <input id="gambar_aktiviti" class="form-input mt-1 block w-full" type="file"

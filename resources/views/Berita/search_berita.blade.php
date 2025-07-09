@@ -6,7 +6,7 @@
         <h2 class="text-xl font-bold text-blue-900">
             {{ $key->name }}
         </h2>
-        <p><img src="{{ asset('/images/' . $key->image) }}"
+        <p><img src="{{ asset('storage/images/' . $key->image) }}"
                 class="custom-image" alt="">
         </p>        
         <p class="p-2 sm:p-8 text-gray-600">

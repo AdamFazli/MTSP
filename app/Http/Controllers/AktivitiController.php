@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aktiviti;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class AktivitiController extends Controller
@@ -92,8 +93,9 @@ class AktivitiController extends Controller
         if ($request->hasFile('gambar_aktiviti')) {
             $image = $request->file('gambar_aktiviti');
             $name = date('YmdHis') . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/img/aktiviti');
-            $image->move($destinationPath, $name);
+            
+            // Store the image in storage/app/public/images
+            $image->storeAs('public/images', $name);
             $incomingFields['gambar_aktiviti'] = $name;
         }
 
@@ -172,7 +174,7 @@ class AktivitiController extends Controller
     {
         $incomingFields = $request->validate([
             'tajuk_aktiviti' => 'required',
-            'gambar_aktiviti' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar_aktiviti' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'tarikh_aktiviti' => 'required|date',
             'masa_mula' => 'required',
             'masa_tamat' => 'required',
@@ -181,10 +183,16 @@ class AktivitiController extends Controller
         ]);
 
         if ($request->hasFile('gambar_aktiviti')) {
+            // Delete old image if it exists
+            if ($aktiviti->gambar_aktiviti) {
+                Storage::delete('public/images/' . $aktiviti->gambar_aktiviti);
+            }
+            
             $image = $request->file('gambar_aktiviti');
             $name = date('YmdHis') . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/img/aktiviti');
-            $image->move($destinationPath, $name);
+            
+            // Store the new image in storage/app/public/images
+            $image->storeAs('public/images', $name);
             $incomingFields['gambar_aktiviti'] = $name;
         } else {
             unset($incomingFields['gambar_aktiviti']);
@@ -192,7 +200,9 @@ class AktivitiController extends Controller
 
         //This is a security measure to prevent Cross-Site Scripting (XSS) attacks, which are a common attack vector for malicious users.
         $incomingFields['tajuk_aktiviti'] = strip_tags($incomingFields['tajuk_aktiviti']);
-        $incomingFields['gambar_aktiviti'] = strip_tags($incomingFields['gambar_aktiviti']);
+        if (isset($incomingFields['gambar_aktiviti'])) {
+            $incomingFields['gambar_aktiviti'] = strip_tags($incomingFields['gambar_aktiviti']);
+        }
         $incomingFields['tarikh_aktiviti'] = strip_tags($incomingFields['tarikh_aktiviti']);
         $incomingFields['masa_mula'] = strip_tags($incomingFields['masa_mula']);
         $incomingFields['masa_tamat'] = strip_tags($incomingFields['masa_tamat']);
@@ -209,6 +219,11 @@ class AktivitiController extends Controller
      */
     public function destroy(Aktiviti $aktiviti)
     {
+        // Delete the image file using Storage facade
+        if ($aktiviti->gambar_aktiviti) {
+            Storage::delete('public/images/' . $aktiviti->gambar_aktiviti);
+        }
+        
         $aktiviti->delete();
         return redirect()->route('aktiviti.index')->with('success', 'Aktiviti berjaya dipadam!');
     }

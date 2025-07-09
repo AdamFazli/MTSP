@@ -12,7 +12,7 @@
 
         <div class="w-1/2 sm:px-6 lg:px-8 bg-white shadow  p-4 sm:p-8">
             <div class="flex flex-col  overflow-hidden break-words  p-4 sm:p-8">
-                    <img src="{{ asset('images/' . $berita->image) }}" alt="" class="">
+                    <img src="{{ asset('storage/images/' . $berita->image) }}" alt="" class="">
                     <h2 class="text-4xl font-light text-blue-900 mt-4">
                         {{ $berita->name }}
                     </h2>

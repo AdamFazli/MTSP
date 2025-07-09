@@ -44,26 +44,20 @@ class BeritaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // ...existing code...
+
     public function store(StoreBeritaRequest $request, Berita $berita)
     {
         $validated = $request->validated();
 
         // Check if an image is uploaded
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            // Define the mounted volume path
-            $destinationPath = '/app/public/images';  // Mounted volume path
-
             // Generate a unique filename for the image
             $profileImage = date('YmdHis') . "." . $request->file('image')->getClientOriginalExtension();
-
-            // Ensure the directory exists (it should be mounted by Railway)
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0775, true);
-            }
-
-            // Move the image to the mounted volume directory
-            $request->file('image')->move($destinationPath, $profileImage);
-
+            
+            // Store the image in storage/app/public/images
+            $request->file('image')->storeAs('public/images', $profileImage);
+            
             // Save the filename in the validated data
             $validated['image'] = $profileImage;
         }
@@ -72,17 +66,12 @@ class BeritaController extends Controller
         $berita = Berita::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
-            'image' => $validated['image'],  // Store the image filename in the database
+            'image' => $validated['image'] ?? null,
         ]);
 
-        return redirect()->route('berita.umum')
+        return redirect()->route('berita umum')
             ->with('success', 'Product created successfully.');
     }
-
-
-
-
-
 
 
     /**
@@ -145,56 +134,37 @@ class BeritaController extends Controller
      * Update the specified resource in storage.
      */
 
-    public function update(Request $request, Berita $berita)
+     public function update(Request $request, Berita $berita)
     {
-        /*    
-           $berita = Berita::find($id);
-           $berita->name = $request->input('name');
-           $berita->description = $request->input('description');
-
-           if($request->hasfile('image')) {
-               $file = $request->file('image');
-               $extension = $file->getClientOriginalExtension();
-               $filename = time() . '.' . $extension;
-               $file->move('images/', $filename);
-               $berita->image = $filename;
-
-            } else {
-           return $request;
-           $berita->image = '';
-       }
-
-           $berita->save(); 
-
-         
-           return redirect('berita_umum'); */
-
         $request->validate([
             'name' => 'required',
             'description' => 'required'
         ]);
 
-
         $input = $request->all();
 
-
         if ($image = $request->file('image')) {
-            $destinationPath = 'images/';
+            // Delete old image if it exists
+            if ($berita->image) {
+                Storage::delete('public/images/' . $berita->image);
+            }
+            
+            // Generate a unique filename for the new image
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $input['image'] = "$profileImage";
+            
+            // Store the new image in storage/app/public/images
+            $image->storeAs('public/images', $profileImage);
+            
+            $input['image'] = $profileImage;
         } else {
             unset($input['image']);
         }
 
-
         $berita->update($input);
-
 
         return redirect('berita_umum')
             ->with('success', 'Product updated successfully');
     }
-
 
 
     /**
@@ -202,19 +172,14 @@ class BeritaController extends Controller
      */
     public function destroy(Berita $berita)
     {
-
         // Check if the Berita is found
         if (!$berita) {
-            abort(404); // You can customize this to your specific needs
+            abort(404);
         }
 
-        // Delete the image file
+        // Delete the image file using Storage facade
         if (!empty($berita->image)) {
-            $imagePath = public_path('images/') . $berita->image;
-
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
-            }
+            Storage::delete('public/images/' . $berita->image);
         }
 
         // Delete the Berita record

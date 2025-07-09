@@ -28,7 +28,7 @@
 
                             <div>
                                 <x-input-label for="image" :value="__('Gambar')" />
-                                <img src="{{ asset('/images/' . $berita->image) }}" alt="">
+                                <img src="{{ asset('storage/images/' . $berita->image) }}" alt="">
                                 <input type="file" name="image" class="block mt-1 w-full form-control">
                             </div>
                             <div>
