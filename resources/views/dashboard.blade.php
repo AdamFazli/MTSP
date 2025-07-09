@@ -15,7 +15,7 @@
                 <div id="slider" class="flex w-full h-full overflow-x-scroll overflow-y-hidden whitespace-nowrap scroll-smooth">
                     @foreach($berita as $beritaa)
                     <a href="{{ route('details.berita', $beritaa->id) }}">
-                        <div class="rounded-2xl w-80 h-80 m-2 cursor-pointer transition duration-300 ease-in-out bg-cover bg-center" style="background-image: url('{{ asset('/images/' . $beritaa->image) }}')">
+                        <div class="rounded-2xl w-80 h-80 m-2 cursor-pointer transition duration-300 ease-in-out bg-cover bg-center" style="background-image: url('{{ asset('storage/images/' . $beritaa->image) }}')">
                         </div>
                     </a>
                     @endforeach

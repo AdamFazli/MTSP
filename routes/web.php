@@ -27,9 +27,7 @@ use App\Http\Controllers\ChatbotController;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
-});
+Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 /* Route::get('/dashboard', function () {
     return view('dashboard');
